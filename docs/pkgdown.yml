@@ -3,7 +3,7 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   intro: intro.html
-last_built: 2025-10-28T10:22Z
+last_built: 2025-10-28T11:04Z
 urls:
   reference: https://nbelouard.github.io/Photo2ARW/reference
   article: https://nbelouard.github.io/Photo2ARW/articles

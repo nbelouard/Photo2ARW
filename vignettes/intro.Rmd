@@ -58,11 +58,11 @@ if (!"CreateDate" %in% names(listEXIF)) {
       }
   
 #4 **INPUT NEEDED** 
-#determine the base code that you want to rename these photos with. The code should end with an underscore. The function will then increment a 3-digit number to each photo 
-Code = "PVL_M_05_11_2024_"
+#determine the base code that you want to rename these photos with. The function will then increment a 3-digit number to each photo 
+Code = "PVL_M_05_11_2024"
 
 #5 create a table containing the raw and new photo names. Check that everything is as expected.
-(listEXIF %<>% mutate(newPhotoName = paste0(Code, str_pad(row_number(), pad = 0,width = 3 , "left"),"_ind.jpg")) %>% 
+(listEXIF %<>% mutate(newPhotoName = paste0(Code, "_", str_pad(row_number(), pad = 0,width = 3 , "left"),"_ind.jpg")) %>% 
   rename(rawPhotoName = FileName)) %>% select(CreateDate, rawPhotoName, newPhotoName)
 
 #6 **INPUT NEEDED**
@@ -70,12 +70,14 @@ Code = "PVL_M_05_11_2024_"
 write.csv(listEXIF, file.path(here(), "exports", "photoNames_PVL_M_05_11_2024.csv"))
 ```
 
-The second step is to actually rename the photos based on the codes that were defined.
+The second step is to actually rename the photos based on the codes that were defined. For security reasons, the files will be copied to another folder before being renamed, so that the original photo still exists.
 ```{r rename photos}
 
 for (i in 1:length(listEXIF$rawPhotoName)){
-  file.rename(from = file.path(pathToPhotos, listEXIF$rawPhotoName[i]), 
-              to = file.path(pathToPhotos, listEXIF$newPhotoName[i]))
+  file.copy(file.path(pathToPhotos, listEXIF$rawPhotoName[i]), 
+            file.path(here(), "dataRenamed"))
+  file.rename(from = file.path(here(), "dataRenamed", listEXIF$rawPhotoName[i]), 
+              to = file.path(here(), "dataRenamed", listEXIF$newPhotoName[i]))
 }
 ```
 
@@ -83,8 +85,8 @@ for (i in 1:length(listEXIF$rawPhotoName)){
 # Batch Import prep
 ```{r batch import prep}
 
-#0 if you start here, set the path to the photos again
-pathToPhotos <- file.path(here(), "data")
+#0 set the path to the renamed photos
+pathToPhotos <- file.path(here(), "dataRenamed")
 
 #1 Create a table with the photo names
 photoNames <- list.files(path = pathToPhotos, full.names = FALSE)

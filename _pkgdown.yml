@@ -1,4 +1,8 @@
 url: https://nbelouard.github.io/Photo2ARW/
 template:
   bootstrap: 5
-
+navbar:
+  structure:
+    left:
+      - reference
+      - articles

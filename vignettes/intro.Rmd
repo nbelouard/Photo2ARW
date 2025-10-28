@@ -2,9 +2,9 @@
 title: "Prepare file for batch import into ARW"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Prepare file for batch import into ARW}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Prepare file for batch import into ARW}
 editor_options: 
   chunk_output_type: console
 ---

@@ -6,5 +6,3 @@
 .quarto
 inst/doc
 docs
-dataRenamed/
-exports/

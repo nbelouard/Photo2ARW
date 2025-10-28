@@ -2,9 +2,9 @@
 title: "Prepare file for batch import into ARW"
 output: rmarkdown::html_vignette
 vignette: >
-  %/VignetteIndexEntry{intro}
-  %/VignetteEncoding{UTF-8}
-  %/VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Prepare file for batch import into ARW}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 editor_options: 
   chunk_output_type: console
 ---
@@ -19,7 +19,7 @@ Steps where your input is needed are indicated.
 
 
 # Setup
-First setup the librairies. If you don't have these libraries, you can install them using `r install.packages(nameOfTheLibrary)`
+First setup the librairies. If you don't have these libraries, you can install them using "install.packages(nameOfTheLibrary)"
 
 ```{r load necessary packages, include = FALSE}
 library(tidyr)
@@ -73,9 +73,9 @@ write.csv(listEXIF, file.path(here(), "exports", "photoNames_PVL_M_05_11_2024.cs
 The second step is to actually rename the photos based on the codes that were defined.
 ```{r rename photos}
 
-for (i in 1:length(photoNames$rawPhotoNames)){
-  file.rename(from = file.path(pathToPhotos, photoNames$rawPhotoNames[i]), 
-              to = file.path(pathToPhotos, photoNames$newPhotoNames[i]))
+for (i in 1:length(listEXIF$rawPhotoName)){
+  file.rename(from = file.path(pathToPhotos, listEXIF$rawPhotoName[i]), 
+              to = file.path(pathToPhotos, listEXIF$newPhotoName[i]))
 }
 ```
 

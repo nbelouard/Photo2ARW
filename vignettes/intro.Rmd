@@ -39,7 +39,7 @@ Now, let's rename the photos. The first step is to create a table that will keep
 
 #1 **INPUT NEEDED** 
 #set the folder containing the photos to import  
-pathToPhotos <- file.path(here(), "data")
+pathToPhotos <- file.path(here("data"))
 
 #2 get the list of the photos in this folder. Sends an error if no photos are found.
 (photoNames <- data.frame(rawPhotoNames = list.files(path = pathToPhotos, full.names = FALSE))) # check that these are the expected photos
@@ -67,7 +67,7 @@ Code = "PVL_M_05_11_2024"
 
 #6 **INPUT NEEDED**
 #if everything is okay, store this table in a file
-write.csv(listEXIF, file.path(here(), "exports", "photoNames_PVL_M_05_11_2024.csv"))
+write.csv(listEXIF, file.path(here("exports", "photoNames_PVL_M_05_11_2024.csv")))
 ```
 
 The second step is to actually rename the photos based on the codes that were defined. For security reasons, the files will be copied to another folder before being renamed, so that the original photo still exists.
@@ -75,9 +75,9 @@ The second step is to actually rename the photos based on the codes that were de
 
 for (i in 1:length(listEXIF$rawPhotoName)){
   file.copy(file.path(pathToPhotos, listEXIF$rawPhotoName[i]), 
-            file.path(here(), "dataRenamed"))
-  file.rename(from = file.path(here(), "dataRenamed", listEXIF$rawPhotoName[i]), 
-              to = file.path(here(), "dataRenamed", listEXIF$newPhotoName[i]))
+            file.path(here("dataRenamed")))
+  file.rename(from = file.path(here("dataRenamed", listEXIF$rawPhotoName[i])), 
+              to = file.path(here("dataRenamed", listEXIF$newPhotoName[i])))
 }
 ```
 
@@ -86,7 +86,7 @@ for (i in 1:length(listEXIF$rawPhotoName)){
 ```{r batch import prep}
 
 #0 set the path to the renamed photos
-pathToPhotos <- file.path(here(), "dataRenamed")
+pathToPhotos <- file.path(here("dataRenamed"))
 
 #1 Create a table with the photo names
 photoNames <- list.files(path = pathToPhotos, full.names = FALSE)
@@ -106,7 +106,7 @@ BatchImportdf_ready <- photo2batchimport(BatchImportdf,
 head(BatchImportdf_ready)
 
 # Save the table for export - Change the file name to your needs
-write.csv(BatchImportdf_ready, file.path(here(), "exports", "PVL_M_05112024.csv"), row.names = F)
+write.csv(BatchImportdf_ready, file.path(here("exports", "PVL_M_05112024.csv")), row.names = F)
 ```
 
 Congratulations, this set of photos is ready for upload on ARW!

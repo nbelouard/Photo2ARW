@@ -1,0 +1,25 @@
+# Photo2ARW
+
+## Installation
+
+You can install the development version of Photo2ARW from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("nbelouard/Photo2ARW")
+```
+
+# Package index
+
+## All functions
+
+- [`photo2batchimport()`](https://nbelouard.github.io/Photo2ARW/reference/photo2batchimport.md)
+  : Create the "batch import" table for Amphibian and Reptile Wildbook
+
+# Articles
+
+### All vignettes
+
+- [Prepare file for batch import into
+  ARW](https://nbelouard.github.io/Photo2ARW/articles/intro.md):

@@ -25,7 +25,10 @@ photo2batchimport <- function(BatchImportdf = BatchImportdf,
   # Create custom variables
   BatchImportdf %<>% mutate(Encounter.locationID = ifelse(locationIDcode == "POT", "Poterie",
                                                           ifelse(locationIDcode == "PVL",
-                                                                 "Prevalaye", "Bois de Soeuvres")),
+                                                                 "Prevalaye",
+                                                                 ifelse(locationIDcode == "BDS",
+                                                                        "Bois de Soeuvres",
+                                                                        "Brequigny"))),
                             Encounter.verbatimLocality = paste0(locationIDcode, "_", transect),
                             fullDate = paste0(Encounter.day, Encounter.month, Encounter.year)) %>%
     mutate(Encounter.sightingID = paste0(Encounter.verbatimLocality, "_", fullDate),

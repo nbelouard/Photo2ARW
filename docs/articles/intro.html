@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">Photo2ARW</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -237,7 +237,7 @@ photos</p>
 <span><span class="co">#set the list of the photo names</span></span>
 <span><span class="op">(</span><span class="va">photoNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">pathToFolder</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "BR_BR2_06_11_2024_001_ind.jpg" "BR_BR2_06_11_2024_002_ind.jpg"</span></span>
-<span><span class="co">## [3] "BR_BR2_06_11_2024_003_ind.jpg"</span></span></code></pre>
+<span><span class="co">## [3] "BR_BR2_06_11_2024_003_ind.jpg" "BR_BR2_06112024.csv"</span></span></code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#Make sure that this is the list of photos that you want to import</span></span>
 <span></span>
@@ -252,23 +252,29 @@ photos</p>
 <span><span class="op">(</span><span class="va">BatchImportdf_ready</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/photo2batchimport.html">photo2batchimport</a></span><span class="op">(</span><span class="va">BatchImportdf</span>,</span>
 <span>                                         submitterID <span class="op">=</span> <span class="st">"YourLoginARW"</span>,</span>
 <span>                                         MarkedID <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: Expected 7 pieces. Missing pieces filled with `NA` in 1 rows</span></span>
+<span><span class="co">## [4].</span></span></code></pre>
 <pre><code><span><span class="co">##           Encounter.mediaAsset0 Encounter.day Encounter.month Encounter.year</span></span>
 <span><span class="co">## 1 BR_BR2_06_11_2024_001_ind.jpg            06              11           2024</span></span>
 <span><span class="co">## 2 BR_BR2_06_11_2024_002_ind.jpg            06              11           2024</span></span>
 <span><span class="co">## 3 BR_BR2_06_11_2024_003_ind.jpg            06              11           2024</span></span>
-<span><span class="co">##   Encounter.locationID Encounter.verbatimLocality Encounter.sightingID</span></span>
-<span><span class="co">## 1            Brequigny                     BR_BR2      BR_BR2_06112024</span></span>
-<span><span class="co">## 2            Brequigny                     BR_BR2      BR_BR2_06112024</span></span>
-<span><span class="co">## 3            Brequigny                     BR_BR2      BR_BR2_06112024</span></span>
-<span><span class="co">##   Encounter.alternateID Encounter.genus Encounter.specificEpithet</span></span>
-<span><span class="co">## 1      BR2_06112024_001      Salamandra                salamandra</span></span>
-<span><span class="co">## 2      BR2_06112024_002      Salamandra                salamandra</span></span>
-<span><span class="co">## 3      BR2_06112024_003      Salamandra                salamandra</span></span>
+<span><span class="co">## 4           BR_BR2_06112024.csv  06112024.csv            &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">##   Encounter.locationID Encounter.verbatimLocality    Encounter.sightingID</span></span>
+<span><span class="co">## 1            Brequigny                     BR_BR2         BR_BR2_06112024</span></span>
+<span><span class="co">## 2            Brequigny                     BR_BR2         BR_BR2_06112024</span></span>
+<span><span class="co">## 3            Brequigny                     BR_BR2         BR_BR2_06112024</span></span>
+<span><span class="co">## 4            Brequigny                     BR_BR2 BR_BR2_06112024.csvNANA</span></span>
+<span><span class="co">##     Encounter.alternateID Encounter.genus Encounter.specificEpithet</span></span>
+<span><span class="co">## 1        BR2_06112024_001      Salamandra                salamandra</span></span>
+<span><span class="co">## 2        BR2_06112024_002      Salamandra                salamandra</span></span>
+<span><span class="co">## 3        BR2_06112024_003      Salamandra                salamandra</span></span>
+<span><span class="co">## 4 BR2_06112024.csvNANA_NA      Salamandra                salamandra</span></span>
 <span><span class="co">##   Encounter.project0.researchProjectName Encounter.submitterID</span></span>
 <span><span class="co">## 1                        Salamandres BZH          YourLoginARW</span></span>
 <span><span class="co">## 2                        Salamandres BZH          YourLoginARW</span></span>
-<span><span class="co">## 3                        Salamandres BZH          YourLoginARW</span></span></code></pre>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<span><span class="co">## 3                        Salamandres BZH          YourLoginARW</span></span>
+<span><span class="co">## 4                        Salamandres BZH          YourLoginARW</span></span></code></pre>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Make sure the final table is as expected</span></span>
 <span></span>
 <span><span class="co"># Save the table for export - Change the file name to your needs. It will be exported in the same file as the photos.</span></span>

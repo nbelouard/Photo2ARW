@@ -173,7 +173,7 @@ BatchImportdf <- data.frame(Encounter.mediaAsset0 = photoNames)
 # Make sure the final table is as expected
 
 # Save the table for export - Change the file name to your needs. It will be exported in the same file as the photos.
-write.csv(BatchImportdf_ready, file.path(pathToFolder, "BR_BR2_06112024.csv"), row.names = F)
+write.csv(BatchImportdf_ready, file.path(here(), "exports", "BR_BR2_06112024.csv"), row.names = F)
 ```
 
 Congratulations, this set of photos is ready for upload on ARW!

@@ -1,9 +1,9 @@
 Package: Photo2ARW
-Title: Prepare photos for batch import into ARW
-Version: 0.0.0.9000
+Title: Prepare photos for bulk import into ARW
+Version: 0.0.1.000
 Authors@R: 
     person("Nadège", "Belouard", , "nadege.belouard@univ-rennes.fr", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: Photo2ARW prepares photos and tables for bulk import into Amphibian and Reptile WildBook
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

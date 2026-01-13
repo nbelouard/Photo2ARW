@@ -191,7 +191,7 @@ pathToFolder <- file.path(here(), "dataRenamed")
 ```
 
     ## [1] "BR_BR2_06_11_2024_001_ind.jpg" "BR_BR2_06_11_2024_002_ind.jpg"
-    ## [3] "BR_BR2_06_11_2024_003_ind.jpg"
+    ## [3] "BR_BR2_06_11_2024_003_ind.jpg" "BR_BR2_06112024.csv"
 
 ``` r
 #Make sure that this is the list of photos that you want to import
@@ -209,22 +209,29 @@ BatchImportdf <- data.frame(Encounter.mediaAsset0 = photoNames)
                                          MarkedID = F))
 ```
 
+    ## Warning: Expected 7 pieces. Missing pieces filled with `NA` in 1 rows
+    ## [4].
+
     ##           Encounter.mediaAsset0 Encounter.day Encounter.month Encounter.year
     ## 1 BR_BR2_06_11_2024_001_ind.jpg            06              11           2024
     ## 2 BR_BR2_06_11_2024_002_ind.jpg            06              11           2024
     ## 3 BR_BR2_06_11_2024_003_ind.jpg            06              11           2024
-    ##   Encounter.locationID Encounter.verbatimLocality Encounter.sightingID
-    ## 1            Brequigny                     BR_BR2      BR_BR2_06112024
-    ## 2            Brequigny                     BR_BR2      BR_BR2_06112024
-    ## 3            Brequigny                     BR_BR2      BR_BR2_06112024
-    ##   Encounter.alternateID Encounter.genus Encounter.specificEpithet
-    ## 1      BR2_06112024_001      Salamandra                salamandra
-    ## 2      BR2_06112024_002      Salamandra                salamandra
-    ## 3      BR2_06112024_003      Salamandra                salamandra
+    ## 4           BR_BR2_06112024.csv  06112024.csv            <NA>           <NA>
+    ##   Encounter.locationID Encounter.verbatimLocality    Encounter.sightingID
+    ## 1            Brequigny                     BR_BR2         BR_BR2_06112024
+    ## 2            Brequigny                     BR_BR2         BR_BR2_06112024
+    ## 3            Brequigny                     BR_BR2         BR_BR2_06112024
+    ## 4            Brequigny                     BR_BR2 BR_BR2_06112024.csvNANA
+    ##     Encounter.alternateID Encounter.genus Encounter.specificEpithet
+    ## 1        BR2_06112024_001      Salamandra                salamandra
+    ## 2        BR2_06112024_002      Salamandra                salamandra
+    ## 3        BR2_06112024_003      Salamandra                salamandra
+    ## 4 BR2_06112024.csvNANA_NA      Salamandra                salamandra
     ##   Encounter.project0.researchProjectName Encounter.submitterID
     ## 1                        Salamandres BZH          YourLoginARW
     ## 2                        Salamandres BZH          YourLoginARW
     ## 3                        Salamandres BZH          YourLoginARW
+    ## 4                        Salamandres BZH          YourLoginARW
 
 ``` r
 # Make sure the final table is as expected

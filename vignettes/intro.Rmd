@@ -93,7 +93,7 @@ Done! Go ahead and generate the table for ARW (step 2)
 
 
 
-# Option B: Photo renamed by alphabetical order
+## Option B: Photo renamed by alphabetical order
 In case you don't have the EXIF data or don't want to use it, you may want to rename the photos in their current alphabetical order. 
 Again, first keep track of the raw and corrected names.
 *The files are not renamed at this step*

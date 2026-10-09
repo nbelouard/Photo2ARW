@@ -9,8 +9,8 @@ This vignette shows how to create the database for uploading photos in Batch Imp
 This vignette requires  that you have a folder that contains all the photos from a transect (or person) at a date, and *only these photos, no other photos, no subfolders.*
 
 There are two main steps:
-- Step 1 : Renaming the photos according to a code (optional) : option A if EXIF metadata, or option B if not
-- Step 2 : Create a data frame that will be imported into ARW
+- Step 1 : Renaming the photos according to a code (optional) : option A if EXIF metadata, or option B if not  
+- Step 2 : Create a data frame that will be imported into ARW  
 
 
 # Setup

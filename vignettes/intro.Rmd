@@ -1,10 +1,6 @@
 ---
 title: "Prepare file for batch import into ARW"
 output: rmarkdown::html_vignette
-vignette: >
-  %/VignetteEncoding{UTF-8}
-  %/VignetteIndexEntry{Prepare file for batch import into ARW}
-  %/VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---
@@ -13,9 +9,8 @@ This vignette shows how to create the database for uploading photos in Batch Imp
 This vignette requires  that you have a folder that contains all the photos from a transect (or person) at a date, and *only these photos, no other photos, no subfolders.*
 
 There are two main steps:
-- Renaming the photos according to a code (optional)
-- Create a data frame that will be imported into ARW
-Steps where your input is needed are indicated.
+- Step 1 : Renaming the photos according to a code (optional) : option A if EXIF metadata, or option B if not
+- Step 2 : Create a data frame that will be imported into ARW
 
 
 # Setup
@@ -33,13 +28,8 @@ library(Photo2ARW)
 
 
 # Step 1- Rename the photos
-## Option A: photo renamed based on EXIF data (photo date and time), if available
-
-The first step is to create a table that will keep track of the raw photo name and the new photo name, in case we ever need to go back to the initial photos.
-*The files are not renamed at this step*
-
-```{r optA get raw and new names}
-
+## Determine if EXIF metadata are available for renaming
+```{r are metadata available}
 #**INPUT NEEDED** 
 #set the folder containing the photos to import
 pathToPhotos <- file.path(here(), "data")
@@ -52,25 +42,37 @@ pathToPhotos <- file.path(here(), "data")
 
 #extract the EXIF data and check that the photos contain the creation date
 listEXIF <- read_exif(file.path(pathToPhotos, photoNames$rawPhotoNames)); if (!"CreateDate" %in% names(listEXIF)) { 
-  print("Error: the photos do not have a CreateDate. You may rename the photos by alphabetical order using Option B below")
+  print("Error: the photos do not have a CreateDate. You may rename the photos by alphabetical order using *Option B* below")
   } else if (any(is.na(listEXIF$CreateDate))){ 
-    print("Error: some of the photos do not have a CreateDate. You may rename the photos by alphabetical order using Option B below") 
-  } else { print("Photos are appropriate for automatic renaming based on CreateDate.")
+    print("Error: some of the photos do not have a CreateDate. You may rename the photos by alphabetical order using *Option B* below") 
+  } else { print("Photos are appropriate for automatic renaming, use *Option A*.")
     listEXIF %<>% select(FileName, CreateDate) %>% arrange(CreateDate) # sort the photos by CreateDate (chronological order)
       }
   
+```
+
+
+
+## Option A: photo renamed based on EXIF data (photo date and time), if available
+
+The first step is to create a table that will keep track of the raw photo name and the new photo name, in case we ever need to go back to the initial photos.
+*The files are not renamed at this step*
+
+```{r optA get raw and new names}
+
 #**INPUT NEEDED** 
+listEXIF
 #determine the base code that you want to rename these photos with. The function will then increment a 3-digit number to each photo 
-Code = "BR_BR2_06_11_2024"
+Code = "POT_TOT_05_11_2024"
 
 #create a table containing the raw and new photo names. 
-(listEXIF %<>% mutate(newPhotoName = paste0(Code, "_", str_pad(row_number(), pad = 0,width = 3 , "left"),"_ind.jpg")) %>% 
+(listEXIF %<>% mutate(newPhotoName = paste0(Code, "_", str_pad(row_number(), pad = 0,width = 3 , "left"),".jpg")) %>% 
   rename(rawPhotoName = FileName)) %>% select(CreateDate, rawPhotoName, newPhotoName)
 #**Check that the new names are as expected.*
 #*
 #**INPUT NEEDED**
 #if everything is okay, store this table in a file to keep track of old and new photo names
-write.csv(listEXIF, file.path(here("exports", "photoNames_BR_BR2_06_11_2024.csv")))
+write.csv(listEXIF, file.path(here("exports", paste0("photoNames_", Code, ".csv"))), row.names = F)
 ```
 
 The second step is to actually rename the photos based on the codes that were defined. For security reasons, the files will be copied to another folder before being renamed, so that the original photo still exists.
@@ -100,27 +102,17 @@ Again, first keep track of the raw and corrected names.
 
 ```{r optB get raw and new names}
 
-#**INPUT NEEDED*
-#set the folder containing the photos to import
-pathToPhotos <- file.path(here(), "data")
-# for this example, the path is set inside the package using here(). You may replace it with the full path to your photos, e.g.:
-# pathToPhotos <- file.path("C:/Users/John/Downloads/BR_BR2_06112024")
-
-#get the list of the photos in this folder
-(photoNames <- data.frame(rawPhotoNames = list.files(path = pathToPhotos, full.names = FALSE))) 
-#**Check that these are the expected photos. The photos will be renamed in the order presented here.*
-
 #**INPUT NEEDED* 
 #determine the base code that you want to rename these photos with. The function will then increment a 3-digit number to each photo 
-Code = "BR_BR2_06_11_2024"
+Code = "POT_TOT_05_11_2024"
 
 #create a table containing the raw and new photo names. Check that everything is as expected.
-(photoNames %<>% mutate(newPhotoName = paste0(Code, "_", str_pad(row_number(), pad = 0,width = 3 , "left"),"_ind.jpg")))
+(photoNames %<>% mutate(newPhotoName = paste0(Code, "_", str_pad(row_number(), pad = 0,width = 3 , "left"),".jpg")))
 #**Check that everything is as expected.*
 #*
 #**INPUT NEEDED*
 #if everything is okay, store this table in a file to keep track of old and new photo names
-write.csv(photoNames, file.path(here("exports", "photoNames_BR_BR2_06_11_2024.csv")))
+write.csv(photoNames, file.path(here("exports", paste0("photoNames_", Code, ".csv"))), row.names = F)
 ```
 
 Now rename the photos based on the code defined. The files will be copied to your folder of choice, so that the original photo still exists.
@@ -167,13 +159,13 @@ BatchImportdf <- data.frame(Encounter.mediaAsset0 = photoNames)
 # Change the submitterID to your ARW login
 # if this is the first time ever that this site is prospected, and you are confident that there are no duplicates in your photos, you can assign individual names without recognition (= each photo is set to a new individual name) by setting MarkedID = T.
 (BatchImportdf_ready <- photo2batchimport(BatchImportdf,
-                                         submitterID = "YourLoginARW",
+                                         submitterID = "N.Belouard",
                                          MarkedID = F))
 
 # Make sure the final table is as expected
 
 # Save the table for export - Change the file name to your needs. It will be exported in the same file as the photos.
-write.csv(BatchImportdf_ready, file.path(here(), "exports", "BR_BR2_06112024.csv"), row.names = F)
+write.csv(BatchImportdf_ready, file.path(here("exports", paste0("BatchImport_", Code, ".csv"))), row.names = F)
 ```
 
 Congratulations, this set of photos is ready for upload on ARW!
